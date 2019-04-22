@@ -18,13 +18,12 @@
             SEGLog(@"[FIROptions defaultOptions].deepLinkURLScheme = %@;", deepLinkURLScheme);
         }
 
-        if ([FIRApp defaultApp]) {
-            SEGLog(@"[FIRApp Configure] already called, skipping");
-            return self;
+        if (![FIRApp defaultApp]) {
+            [FIRApp configure];
+            SEGLog(@"[FIRApp Configure]");
+        } else {
+            SEGLog(@"[FIRApp deaultApp]");
         }
-
-        [FIRApp configure];
-        SEGLog(@"[FIRApp Configure]");
     }
     return self;
 }
