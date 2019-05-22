@@ -18,8 +18,18 @@
             SEGLog(@"[FIROptions defaultOptions].deepLinkURLScheme = %@;", deepLinkURLScheme);
         }
 
+        NSString *path = @"GoogleService-Info-Staging";
+        NSString *env = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"Environment"];
+
+        if([env isEqualToString: @"prod"]) {
+            path = @"GoogleService-info-Release";
+        }
+
+        NSString *myFile= [[NSBundle mainBundle] pathForResource:path ofType: @"plist"];
+        FIROptions *options = [[FIROptions alloc] initWithContentsOfFile: myFile];
+
         if (![FIRApp defaultApp]) {
-            [FIRApp configure];
+            [FIRApp configureWithOptions: options];
             SEGLog(@"[FIRApp Configure]");
         } else {
             SEGLog(@"[FIRApp deaultApp]");
